@@ -45,4 +45,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function userContact()
+    {
+        return $this->hasOne(UserContact::class)->withDefault();
+    }
+
+    public function userAbout()
+    {
+        return $this->hasOne(UserAbout::class)->withDefault();
+    }
 }
