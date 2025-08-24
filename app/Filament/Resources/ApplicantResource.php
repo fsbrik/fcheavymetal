@@ -3,11 +3,11 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ApplicantResource\Pages;
-use Illuminate\Support\Collection;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -35,6 +35,13 @@ class ApplicantResource extends Resource
                             ->schema([
                                 TextInput::make('name')->required()->label('Full Name'),
                                 TextInput::make('email')->email()->required(),
+                                TextInput::make('password')
+                                    ->password()
+                                    ->required(fn(string $operation): bool => $operation === 'create')
+                                    ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                                    ->dehydrated(fn($state) => filled($state)) // solo guarda si está lleno
+                                    ->label('Password')
+                                    ->minLength(8),
                                 Select::make('gender')
                                     ->options([
                                         'male' => 'Male',
@@ -166,7 +173,7 @@ class ApplicantResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // no relation managers separados, usamos tabs en el form
+
         ];
     }
 

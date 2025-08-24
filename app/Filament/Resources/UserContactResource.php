@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class UserContactResource extends Resource
 {
     protected static ?string $model = UserContact::class;
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
