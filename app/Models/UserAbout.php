@@ -14,8 +14,15 @@ class UserAbout extends Model
     protected $fillable = [
         'user_id',
         'music_styles',   
-        'religion',       
+        'religion', 
+        'education_level',
+        'professions',      
         'investment_capacity',
+    ];
+
+    protected $casts = [
+        'music_styles' => 'array',
+        'professions' => 'array',
     ];
 
     public function user()
