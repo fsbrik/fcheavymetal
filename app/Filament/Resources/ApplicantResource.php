@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ApplicantResource\Pages;
+use App\Filament\Resources\ApplicantResource\RelationManagers;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\State;
@@ -18,6 +19,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Tables;
+use Filament\Forms\Components\Section;
 
 class ApplicantResource extends Resource
 {
@@ -29,28 +31,33 @@ class ApplicantResource extends Resource
     {
         return $form
             ->schema([
-                Tabs::make('Applicant')
+                Section::make('Personal info')
+                    ->description('Your basic info for reaching you')
+                    ->schema([
+                        /* Tabs::make('Applicant')
                     ->tabs([
                         Tabs\Tab::make('Personal Info')
-                            ->schema([
-                                TextInput::make('name')->required()->label('Full Name'),
-                                TextInput::make('email')->email()->required(),
-                                TextInput::make('password')
-                                    ->password()
-                                    ->required(fn(string $operation): bool => $operation === 'create')
-                                    ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
-                                    ->dehydrated(fn($state) => filled($state)) // solo guarda si está lleno
-                                    ->label('Password')
-                                    ->minLength(8),
-                                Select::make('gender')
-                                    ->options([
-                                        'male' => 'Male',
-                                        'female' => 'Female',
-                                    ])
-                                    ->required(),
-                                DatePicker::make('birth_date')->required(),
-                            ]),
-                        Tabs\Tab::make('Contact')
+                            ->schema([ */
+                        TextInput::make('name')->required()->label('Full Name'),
+                        TextInput::make('email')->email()->required(),
+                        TextInput::make('password')
+                            ->password()
+                            ->required(fn(string $operation): bool => $operation === 'create')
+                            ->dehydrateStateUsing(fn($state) => filled($state) ? bcrypt($state) : null)
+                            ->dehydrated(fn($state) => filled($state)) // solo guarda si está lleno
+                            ->label('Password')
+                            ->minLength(8),
+                        Select::make('gender')
+                            ->options([
+                                'male' => 'Male',
+                                'female' => 'Female',
+                            ])
+                            ->required(),
+                        DatePicker::make('birth_date')->required(),
+                    ])
+                    ->columns(2)
+            ]);
+        /* Tabs\Tab::make('Contact')
                             ->schema([
                                 TextInput::make('userContact.phone')->label('Phone'),
                                 TextInput::make('userContact.instagram')->label('Instagram'),
@@ -108,7 +115,7 @@ class ApplicantResource extends Resource
                                             && City::where('state_id', $get('userContact.state_id'))->exists()
                                     ),
                             ]),
-                        Tabs\Tab::make('About')
+                        Tabs\Tab::make('About') 
                             ->schema([
                                 Select::make('userAbout.musical_styles')
                                     ->multiple()
@@ -149,7 +156,7 @@ class ApplicantResource extends Resource
                                     ]),
                             ]),
                     ]),
-            ]);
+            ]); */
     }
 
     public static function table(Table $table): Table
@@ -158,6 +165,8 @@ class ApplicantResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')->label('Full Name')->sortable(),
                 Tables\Columns\TextColumn::make('email')->label('Email')->sortable(),
+                Tables\Columns\TextColumn::make('gender')->label('Gender')->sortable(),
+                Tables\Columns\TextColumn::make('birth_date')->label('Birth Date')->sortable(),
             ])
             ->filters([
                 //
@@ -173,7 +182,7 @@ class ApplicantResource extends Resource
     public static function getRelations(): array
     {
         return [
-
+            RelationManagers\UserContactRelationManager::class,
         ];
     }
 
