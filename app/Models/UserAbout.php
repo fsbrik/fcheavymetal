@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserAbout extends Model
 {
@@ -13,19 +14,19 @@ class UserAbout extends Model
 
     protected $fillable = [
         'user_id',
-        'music_styles',   
+        'musical_styles',   
         'religion', 
         'education_level',
         'professions',      
-        'investment_capacity',
+        'investment_range',
     ];
 
     protected $casts = [
-        'music_styles' => 'array',
+        'musical_styles' => 'array',
         'professions' => 'array',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

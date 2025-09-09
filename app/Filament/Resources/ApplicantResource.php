@@ -183,6 +183,7 @@ class ApplicantResource extends Resource
     {
         return [
             RelationManagers\UserContactRelationManager::class,
+            RelationManagers\UserAboutRelationManager::class,
         ];
     }
 
@@ -194,4 +195,6 @@ class ApplicantResource extends Resource
             'edit' => Pages\EditApplicant::route('/{record}/edit'),
         ];
     }
+
+
 }
