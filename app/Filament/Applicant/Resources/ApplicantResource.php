@@ -1,32 +1,29 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Applicant\Resources;
 
-use App\Filament\Resources\ApplicantResource\Pages;
-use App\Filament\Resources\ApplicantResource\RelationManagers;
+use App\Filament\Applicant\Resources\ApplicantResource\Pages;
+use App\Filament\Applicant\Resources\ApplicantResource\RelationManagers;
 use App\Models\User;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\City;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Container\Attributes\Auth;
+use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
-use Filament\Tables\Table;
 use Filament\Tables;
-
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ApplicantResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $navigationLabel = 'Applicants';
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
@@ -58,7 +55,7 @@ class ApplicantResource extends Resource
                     ])
                     ->columns(2),
             ]);
-            
+
         /* Tabs\Tab::make('Contact')
                             ->schema([
                                 TextInput::make('userContact.phone')->label('Phone'),
@@ -185,7 +182,7 @@ class ApplicantResource extends Resource
     {
         return [
             RelationManagers\UserContactRelationManager::class,
-            RelationManagers\UserAboutRelationManager::class,
+            RelationManagers\userAboutRelationManager::class,
         ];
     }
 
@@ -194,6 +191,7 @@ class ApplicantResource extends Resource
         return [
             'index' => Pages\ListApplicants::route('/'),
             'create' => Pages\CreateApplicant::route('/create'),
+            'view' => Pages\ViewApplicant::route('/{record}'),
             'edit' => Pages\EditApplicant::route('/{record}/edit'),
         ];
     }

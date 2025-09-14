@@ -1,24 +1,20 @@
 <?php
 
-namespace App\Filament\Resources\ApplicantResource\RelationManagers;
+namespace App\Filament\Applicant\Resources\ApplicantResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\CheckboxList;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-//use Filament\Tables\Columns\Layout\View;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserAboutRelationManager extends RelationManager
 {
     protected static string $relationship = 'userAbout';
-    protected static ?string $title = 'About info';
 
     public function form(Form $form): Form
     {
@@ -165,16 +161,4 @@ class UserAboutRelationManager extends RelationManager
             ])
             ->paginated(false);
     }
-
-    /*  
-
-    public static function getPluralLabel(): ?string
-    {
-        return 'About Info'; // etiqueta en plural (tabla, header, etc.)
-    }
-
-    public static function getLabel(): ?string
-    {
-        return 'About'; // etiqueta en singular
-    } */
 }
